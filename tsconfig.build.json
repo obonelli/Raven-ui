@@ -1,0 +1,17 @@
+{
+    "extends": "./tsconfig.json",
+    "compilerOptions": {
+        "incremental": false,
+        "composite": false,
+        "declaration": true,
+        "emitDeclarationOnly": false,
+        "declarationMap": false,
+        "outDir": "dist",
+        "rootDir": "src",
+        "jsx": "react-jsx",
+        "skipLibCheck": true
+    },
+    "include": [
+        "src/**/*"
+    ]
+}
