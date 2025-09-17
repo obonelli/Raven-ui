@@ -1,5 +1,6 @@
-// src/components/ui/Modal.tsx
-import React from 'react';
+'use client';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
+import { createPortal } from 'react-dom';
 
 type ModalVariant = 'loading' | 'alert';
 type Severity = 'success' | 'error' | 'info' | 'warning';
@@ -16,8 +17,12 @@ export interface ModalProps {
     severity?: Severity;
     buttonText?: string;
     onClose?: () => void; // requerido si variant='alert'
+
+    /** Desactiva portal (útil para depurar en SB) */
+    disablePortal?: boolean;
 }
 
+/** Modal centrado con portal seguro para iframes (Storybook) */
 export default function Modal({
     visible = false,
     variant = 'loading',
@@ -26,8 +31,23 @@ export default function Modal({
     severity = 'info',
     buttonText = 'Aceptar',
     onClose,
+    disablePortal = false,
 }: ModalProps) {
-    if (!visible) return null;
+    const [mounted, setMounted] = useState(false);
+
+    // Ancla para obtener el ownerDocument correcto (iframe vs top)
+    const anchorRef = useRef<HTMLSpanElement | null>(null);
+
+    useEffect(() => setMounted(true), []);
+
+    // target del portal: body del documento donde se está pintando el componente
+    const target = useMemo<HTMLElement | null>(() => {
+        if (typeof window === 'undefined') return null;
+        const doc = anchorRef.current?.ownerDocument ?? document;
+        return doc.body ?? null;
+    }, [anchorRef.current]); // eslint-disable-line react-hooks/exhaustive-deps
+
+    if (!visible) return <span ref={anchorRef} />;
 
     const palette: Record<
         Severity,
@@ -39,10 +59,14 @@ export default function Modal({
         info: { bg: 'bg-sky-100', color: 'text-sky-600', Icon: InfoIcon },
     };
 
-    return (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm">
+    const overlay = (
+        <div
+            className="fixed inset-0 z-[2147483647] flex items-center justify-center bg-black/40 backdrop-blur-sm"
+            role="dialog"
+            aria-modal="true"
+        >
             {variant === 'loading' ? (
-                <div className="flex flex-col items-center gap-4 rounded-lg bg-white px-10 py-8 shadow-xl">
+                <div className="flex min-w-[260px] flex-col items-center gap-4 rounded-xl bg-white px-8 py-6 shadow-xl">
                     <svg
                         className="h-10 w-10 animate-spin text-sky-600"
                         viewBox="0 0 24 24"
@@ -56,18 +80,15 @@ export default function Modal({
                     <p className="text-sm font-medium text-slate-800">{message}</p>
                 </div>
             ) : (
-                <div className="w-[90%] max-w-sm rounded-lg bg-white p-8 shadow-xl text-center space-y-6">
-                    {/* icono circular */}
-                    <div
-                        className={`mx-auto flex h-16 w-16 items-center justify-center rounded-full ${palette[severity].bg}`}
-                    >
+                <div className="w-[90%] max-w-sm rounded-xl bg-white p-8 text-center shadow-xl space-y-6">
+                    <div className={`mx-auto flex h-16 w-16 items-center justify-center rounded-full ${palette[severity].bg}`}>
                         {(() => {
                             const Icon = palette[severity].Icon;
                             return <Icon className={`h-8 w-8 ${palette[severity].color}`} />;
                         })()}
                     </div>
 
-                    {title && <h3 className="text-lg font-semibold text-slate-800">{title}</h3>}
+                    {title && <h3 className="text-lg font-semibold text-slate-900">{title}</h3>}
                     <p className="text-sm text-slate-700 whitespace-pre-line">{message}</p>
 
                     <button
@@ -81,30 +102,46 @@ export default function Modal({
             )}
         </div>
     );
+
+    // Pintamos el ancla SIEMPRE para que ownerDocument sea correcto
+    if (disablePortal) {
+        return (
+            <>
+                <span ref={anchorRef} />
+                {overlay}
+            </>
+        );
+    }
+
+    if (!mounted || !target) return <span ref={anchorRef} />;
+
+    return (
+        <>
+            <span ref={anchorRef} />
+            {createPortal(overlay, target)}
+        </>
+    );
 }
 
-/* Icons */
+/* ICONOS */
 const SuccessIcon: React.FC<React.SVGProps<SVGSVGElement>> = (props) => (
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" {...props}>
         <path d="M9 12.75 11.25 15 15 9.75" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
         <circle cx="12" cy="12" r="9" strokeWidth="2" />
     </svg>
 );
-
 const ErrorIcon: React.FC<React.SVGProps<SVGSVGElement>> = (props) => (
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" {...props}>
         <circle cx="12" cy="12" r="9" strokeWidth="2" />
         <path d="M9 9l6 6m0-6l-6 6" strokeWidth="2" strokeLinecap="round" />
     </svg>
 );
-
 const WarnIcon: React.FC<React.SVGProps<SVGSVGElement>> = (props) => (
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" {...props}>
         <path d="M12 7v4m0 4h.01" strokeWidth="2" strokeLinecap="round" />
         <polygon points="12 2 22 20 2 20" fill="none" strokeWidth="2" strokeLinejoin="round" />
     </svg>
 );
-
 const InfoIcon: React.FC<React.SVGProps<SVGSVGElement>> = (props) => (
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" {...props}>
         <circle cx="12" cy="12" r="9" strokeWidth="2" />

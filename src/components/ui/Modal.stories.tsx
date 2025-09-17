@@ -5,6 +5,7 @@ import Modal from './Modal';
 const meta: Meta<typeof Modal> = {
     title: 'UI/Modal',
     component: Modal,
+    parameters: { layout: 'fullscreen' }, // importante para overlay
 };
 export default meta;
 type Story = StoryObj<typeof Modal>;
@@ -77,3 +78,8 @@ export const AlertInfo: Story = {
         );
     },
 };
+
+// TIP rápido para depurar si algo sigue sin verse:
+// export const AlertInfoNoPortal: Story = {
+//   render: () => <Modal visible variant="alert" severity="info" title="Info" message="Sin portal" disablePortal />,
+// };

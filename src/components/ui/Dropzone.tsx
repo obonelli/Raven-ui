@@ -1,5 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 
+type Size = 'sm' | 'md' | 'lg';
+
 export interface DropzoneProps {
     file: File | null;
     onFileSelect?: (file: File | null) => void;
@@ -8,6 +10,8 @@ export interface DropzoneProps {
     className?: string;
     children?: React.ReactNode;
     iconSrc?: string;
+    size?: Size;        // alto del área
+    fullWidth?: boolean; // ocupar 100% del contenedor
 }
 
 export default function Dropzone({
@@ -18,18 +22,18 @@ export default function Dropzone({
     className = '',
     children,
     iconSrc = '/assets/AttachmentUploaderIcon.svg',
+    size = 'md',
+    fullWidth = false,
 }: DropzoneProps) {
     const boxRef = useRef<HTMLDivElement | null>(null);
     const inputRef = useRef<HTMLInputElement | null>(null);
     const [dragOver, setDragOver] = useState(false);
 
-    // drag & drop listeners
     useEffect(() => {
         const el = boxRef.current;
         if (!el) return;
 
         const stop = (e: DragEvent) => { e.preventDefault(); e.stopPropagation(); };
-
         const onDragEnter = (e: DragEvent) => { stop(e); setDragOver(true); };
         const onDragOver = (e: DragEvent) => { stop(e); setDragOver(true); };
         const onDragLeave = (e: DragEvent) => { stop(e); setDragOver(false); };
@@ -44,7 +48,6 @@ export default function Dropzone({
         el.addEventListener('dragover', onDragOver);
         el.addEventListener('dragleave', onDragLeave);
         el.addEventListener('drop', onDrop);
-
         return () => {
             el.removeEventListener('dragenter', onDragEnter);
             el.removeEventListener('dragover', onDragOver);
@@ -55,6 +58,11 @@ export default function Dropzone({
 
     const openPicker = () => inputRef.current?.click();
 
+    const heightCls =
+        size === 'sm' ? 'min-h-28' :
+            size === 'lg' ? 'min-h-56' :
+                'min-h-40';
+
     return (
         <>
             <div
@@ -64,33 +72,36 @@ export default function Dropzone({
                 onKeyDown={(e) => (e.key === 'Enter' || e.key === ' ') && openPicker()}
                 onClick={openPicker}
                 className={[
-                    'relative w-full min-h-40',
+                    'relative',
+                    fullWidth ? 'w-full' : 'w-full max-w-xl',
+                    heightCls,
                     'flex flex-col items-center justify-center gap-2',
-                    'rounded-md border-2 border-dashed text-center cursor-pointer',
-                    dragOver ? 'border-sky-400 bg-sky-50/40' : 'border-gray-300 hover:bg-gray-50',
-                    'transition-colors',
+                    'rounded-lg border-2 border-dashed bg-white/95 text-center cursor-pointer',
+                    dragOver ? 'border-sky-500 bg-sky-50' : 'border-slate-300 hover:bg-slate-50',
+                    'shadow-sm transition-colors',
+                    'px-6',
                     className,
                 ].join(' ')}
             >
-                {/* input 100% overlay (realmente invisible) */}
+                {/* overlay real del input */}
                 <input
                     ref={inputRef}
                     type="file"
                     accept={accept}
+                    title=""                 // evita tooltip nativo
                     onChange={(e) => onFileSelect?.(e.target.files?.[0] || null)}
                     className="absolute inset-0 h-full w-full opacity-0 cursor-pointer"
                     aria-label="Seleccionar archivo"
                 />
 
                 {children ?? (
-                    <div className="pointer-events-none select-none flex flex-col items-center gap-2 px-4">
-                        {/* usa tu SVG del proyecto (colócalo en /public/assets/AttachmentUploaderIcon.svg) */}
-                        <img src={iconSrc} alt="" className="h-10 w-10" />
-                        <p className="text-sm">
+                    <div className="pointer-events-none select-none flex flex-col items-center gap-2 px-2">
+                        <img src={iconSrc} alt="" className="h-10 w-10 opacity-90" />
+                        <p className="text-sm text-slate-700">
                             Arrastra y suelta el archivo <br />
                             <span className="text-sky-600 underline">o haz clic aquí para explorar</span>
                         </p>
-                        <p className="text-xs text-gray-500">
+                        <p className="text-xs text-slate-500">
                             Formatos: {accept || '—'}. Máx: {maxSizeMb} mb.
                         </p>
                     </div>
@@ -98,12 +109,12 @@ export default function Dropzone({
             </div>
 
             {file && (
-                <div className="mt-4 flex items-center justify-between rounded bg-green-50 px-4 py-2 text-sm">
+                <div className="mt-4 flex items-center justify-between rounded-md bg-emerald-50 px-4 py-2 text-sm shadow-sm">
                     <span className="truncate">{file.name}</span>
                     <button
                         type="button"
                         onClick={() => onFileSelect?.(null)}
-                        className="cursor-pointer text-slate-700 hover:text-slate-900"
+                        className="cursor-pointer rounded px-2 py-1 text-slate-700 hover:bg-emerald-100"
                         aria-label="Eliminar archivo"
                         title="Eliminar archivo"
                     >
