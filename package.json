@@ -59,7 +59,11 @@
     "tsup": "8.5.0",
     "@types/node": "24.5.1",
     "@types/react": "19.1.13",
-    "@types/react-dom": "19.1.9"
+    "@types/react-dom": "19.1.9",
+    "rollup": "4.21.0"
+  },
+  "optionalDependencies": {
+    "@rollup/rollup-linux-x64-gnu": "4.21.0"
   },
   "engines": {
     "node": ">=18.18"
