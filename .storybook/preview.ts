@@ -1,20 +1,19 @@
-import '../src/app/globals.css';
-import type { Preview } from '@storybook/nextjs-vite';
+import type { Preview } from '@storybook/react';
+import '../src/styles.css';
 
 const preview: Preview = {
   parameters: {
-    controls: {
-      matchers: { color: /(background|color)$/i, date: /Date$/i },
-    },
-    a11y: { test: 'todo' },
     layout: 'padded',
     backgrounds: {
       default: 'dark',
       values: [
-        { name: 'dark', value: '#0b0f17' },
+        { name: 'dark', value: '#0b0b0c' },
         { name: 'light', value: '#ffffff' },
       ],
     },
+    docs: { title: 'Raven UI' },
+    controls: { expanded: true },
+    actions: { argTypesRegex: '^on[A-Z].*' },
   },
 };
 

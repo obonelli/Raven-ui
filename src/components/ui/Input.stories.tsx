@@ -1,22 +1,50 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { Input } from './Input';
+import React, { useState } from 'react';
+import Input from './Input';
 
 const meta: Meta<typeof Input> = {
     title: 'UI/Input',
     component: Input,
-    tags: ['autodocs'],
-    argTypes: {
-        type: { control: 'radio', options: ['text', 'email', 'password'] },
-        disabled: { control: 'boolean' },
-        placeholder: { control: 'text' },
-    },
-    args: { placeholder: 'Type something…', type: 'text' },
+    args: { label: 'Your name', placeholder: 'Write here…' },
 };
 export default meta;
 
 type Story = StoryObj<typeof Input>;
 
-export const Text: Story = {};
-export const Email: Story = { args: { type: 'email', placeholder: 'name@example.com' } };
-export const Password: Story = { args: { type: 'password', placeholder: '••••••••' } };
-export const Disabled: Story = { args: { disabled: true, value: 'Read-only' } };
+export const Default: Story = {
+    render: (args) => {
+        const [v, setV] = useState('');
+        return <Input {...args} value={v} onChange={(e) => setV(e.target.value)} />;
+    },
+};
+
+export const WithMaxLength: Story = {
+    render: (args) => {
+        const [v, setV] = useState('');
+        return (
+            <Input
+                {...args}
+                label="Username"
+                maxLength={20}
+                value={v}
+                onChange={(e) => setV(e.target.value)}
+            />
+        );
+    },
+};
+
+export const Error: Story = {
+    render: (args) => {
+        const [v, setV] = useState('');
+        return (
+            <Input
+                {...args}
+                label="Email"
+                type="email"
+                error
+                value={v}
+                onChange={(e) => setV(e.target.value)}
+            />
+        );
+    },
+};

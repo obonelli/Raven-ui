@@ -1,0 +1,18 @@
+{
+    "extends": "../tsconfig.json",
+    "compilerOptions": {
+        "module": "NodeNext",
+        "moduleResolution": "NodeNext",
+        "types": [
+            "node"
+        ],
+        "skipLibCheck": true,
+        "noEmit": true
+    },
+    "include": [
+        ".",
+        "../stories",
+        "../src/**/*.ts",
+        "../src/**/*.tsx"
+    ]
+}

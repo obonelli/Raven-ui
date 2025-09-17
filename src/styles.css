@@ -1,3 +1,55 @@
-@import "tailwindcss";
 /* src/styles.css */
-@source "./**/*.{ts,tsx,js,jsx,html,mdx}", "./stories/**/*.{ts,tsx}";
+@import "tailwindcss";
+
+/* Dile a Tailwind dónde buscar clases (v4) */
+@source "./**/*.{ts,tsx,js,jsx,html,mdx}";
+@source "../.storybook/**/*.{ts,tsx,js,jsx,html,mdx}";
+@source "../stories/**/*.{ts,tsx,js,jsx,html,mdx}";
+
+/* Tus tokens / theme pueden vivir aquí también */
+:root {
+    --background: #ffffff;
+    --foreground: #171717;
+}
+
+@theme {
+    --color-background: var(--background);
+    --color-foreground: var(--foreground);
+
+    --color-brand-50: #f4f7ff;
+    --color-brand-100: #e9effe;
+    --color-brand-200: #cdd9fd;
+    --color-brand-300: #a8bbfb;
+    --color-brand-400: #7a93f7;
+    --color-brand-500: #566ff2;
+    --color-brand-600: #4156cc;
+    --color-brand-700: #3443a3;
+    --color-brand-800: #2b3783;
+    --color-brand-900: #242e6b;
+
+    --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+    --font-mono: var(--font-geist-mono), ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+
+    --radius-xl: 0.9rem;
+    --shadow-card: 0 8px 24px rgba(0, 0, 0, 0.12);
+}
+
+@media (prefers-color-scheme: dark) {
+    :root {
+        --background: #0b0f17;
+        --foreground: #e5e7eb;
+    }
+}
+
+html,
+body,
+#__next,
+#storybook-root {
+    height: 100%;
+}
+
+body {
+    background: var(--background);
+    color: var(--foreground);
+    font-family: var(--font-sans);
+}

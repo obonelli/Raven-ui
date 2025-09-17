@@ -1,47 +1,39 @@
-'use client';
+import React from 'react';
 
-import * as React from 'react';
-import { cn } from '@/lib/cn';
+type ButtonVariant = 'primary' | 'outline' | 'link' | 'outlineFill';
 
-type Variant = 'primary' | 'secondary' | 'ghost';
-type Size = 'sm' | 'md' | 'lg';
-
-export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-    variant?: Variant;
-    size?: Size;
-    loading?: boolean;
+export interface ButtonProps
+    extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+    variant?: ButtonVariant;
 }
 
-const base =
-    'inline-flex items-center justify-center rounded-[var(--radius-xl)] font-medium transition-colors active:scale-[0.98] disabled:opacity-60 disabled:cursor-not-allowed';
-
-const variants: Record<Variant, string> = {
-    primary: 'bg-brand-500 text-white hover:bg-brand-600',
-    secondary: 'bg-white/10 text-white hover:bg-white/20',
-    ghost: 'bg-transparent text-foreground hover:bg-white/10',
-};
-
-const sizes: Record<Size, string> = {
-    sm: 'h-9 px-3 text-sm',
-    md: 'h-10 px-4 text-sm',
-    lg: 'h-11 px-5 text-base',
-};
-
-export function Button({
-    className,
-    variant = 'primary',
-    size = 'md',
-    loading,
+export default function Button({
     children,
+    variant = 'primary',
+    className = '',
+    disabled = false,
+    style,
     ...props
 }: ButtonProps) {
+    const base = 'h-11 px-6 rounded-md text-sm font-medium transition-colors';
+
+    const variants: Record<ButtonVariant, string> = {
+        primary: `text-white bg-[#002d4c] hover:bg-[#00243c] ${base}`,
+        outline: `border border-gray-400 bg-white hover:bg-gray-50 ${base}`,
+        link: `h-auto px-0 bg-transparent text-[#003865] underline underline-offset-2 hover:text-[#002d4c] ${base}`,
+        outlineFill: `border border-[#002d4c] text-[#002d4c] bg-transparent hover:bg-[#002d4c] hover:text-white ${base}`,
+    };
+
+    const disabledCls = disabled ? 'opacity-60 cursor-not-allowed' : 'cursor-pointer';
+
     return (
         <button
             {...props}
-            disabled={props.disabled || loading}
-            className={cn(base, variants[variant], sizes[size], 'shadow-[var(--shadow-card)]', className)}
+            disabled={disabled}
+            style={style}
+            className={`${variants[variant]} ${disabledCls} ${className}`}
         >
-            {loading ? 'Loading…' : children}
+            {children}
         </button>
     );
 }
