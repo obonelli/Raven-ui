@@ -1,7 +1,7 @@
 // Barrel exports for UI components
 
-export { default as Button } from './Button';
-export type { ButtonProps } from './Button';
+export { default as Button } from './button/Button';
+export type { ButtonProps } from './button/Button';
 
 export { default as Input } from './Input';
 export type { InputProps } from './Input';

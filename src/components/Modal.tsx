@@ -1,5 +1,5 @@
 'use client';
-import React, { useEffect, useMemo, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 
 type ModalVariant = 'loading' | 'alert';
@@ -8,21 +8,16 @@ type Severity = 'success' | 'error' | 'info' | 'warning';
 export interface ModalProps {
     visible?: boolean;
     variant?: ModalVariant;
-
     // loading
     message?: string;
-
     // alert
     title?: string;
     severity?: Severity;
     buttonText?: string;
     onClose?: () => void; // requerido si variant='alert'
-
-    /** Desactiva portal (útil para depurar en SB) */
     disablePortal?: boolean;
 }
 
-/** Modal centrado con portal seguro para iframes (Storybook) */
 export default function Modal({
     visible = false,
     variant = 'loading',
@@ -34,20 +29,13 @@ export default function Modal({
     disablePortal = false,
 }: ModalProps) {
     const [mounted, setMounted] = useState(false);
-
-    // Ancla para obtener el ownerDocument correcto (iframe vs top)
     const anchorRef = useRef<HTMLSpanElement | null>(null);
 
     useEffect(() => setMounted(true), []);
 
-    // target del portal: body del documento donde se está pintando el componente
-    const target = useMemo<HTMLElement | null>(() => {
-        if (typeof window === 'undefined') return null;
-        const doc = anchorRef.current?.ownerDocument ?? document;
-        return doc.body ?? null;
-    }, [anchorRef.current]); // eslint-disable-line react-hooks/exhaustive-deps
-
-    if (!visible) return <span ref={anchorRef} />;
+    // ⚠️ Sin useMemo: calcular siempre con el ownerDocument correcto (iframe-friendly)
+    const doc = anchorRef.current?.ownerDocument ?? document;
+    const target: HTMLElement | null = doc.body ?? null;
 
     const palette: Record<
         Severity,
@@ -59,7 +47,7 @@ export default function Modal({
         info: { bg: 'bg-sky-100', color: 'text-sky-600', Icon: InfoIcon },
     };
 
-    const overlay = (
+    const overlay = visible ? (
         <div
             className="fixed inset-0 z-[2147483647] flex items-center justify-center bg-black/40 backdrop-blur-sm"
             role="dialog"
@@ -101,9 +89,9 @@ export default function Modal({
                 </div>
             )}
         </div>
-    );
+    ) : null;
 
-    // Pintamos el ancla SIEMPRE para que ownerDocument sea correcto
+    // Siempre pintamos el ancla para que exista ownerDocument
     if (disablePortal) {
         return (
             <>
@@ -118,7 +106,7 @@ export default function Modal({
     return (
         <>
             <span ref={anchorRef} />
-            {createPortal(overlay, target)}
+            {overlay ? createPortal(overlay, target) : null}
         </>
     );
 }

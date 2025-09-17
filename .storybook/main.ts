@@ -5,7 +5,7 @@ const config: StorybookConfig = {
   addons: ['@storybook/addon-docs'],
   stories: [
     // Solo buscamos stories dentro de src/components/ui
-    '../src/components/ui/**/*.stories.@(ts|tsx|mdx)',
+    '../src/components/**/*.stories.@(ts|tsx|mdx)',
   ],
 };
 

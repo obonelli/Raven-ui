@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import Dropzone from './Dropzone';
 
 const meta: Meta<typeof Dropzone> = {
-    title: 'UI/Dropzone',
+    title: 'Components/Dropzone',
     component: Dropzone,
     args: { accept: 'image/*,.pdf', maxSizeMb: 10, size: 'md' },
     parameters: { layout: 'centered' },

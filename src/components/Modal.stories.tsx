@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import Modal from './Modal';
 
 const meta: Meta<typeof Modal> = {
-    title: 'UI/Modal',
+    title: 'Components/Modal',
     component: Modal,
     parameters: { layout: 'fullscreen' }, // importante para overlay
 };

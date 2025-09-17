@@ -1,0 +1,24 @@
+import {
+  Meta,
+  Canvas,
+  PureArgsTable as ArgsTable,
+  Subtitle,
+  Markdown,
+} from '@storybook/addon-docs/blocks';
+import * as ButtonStories from './Button.stories';
+import Button from './Button';
+
+<Meta of={ButtonStories} />
+
+# Button
+<Subtitle>Calls to action in forms and flows.</Subtitle>
+
+<Markdown>
+  {`Primary para acciones principales, **outline** para secundarias, **link** para inline y **outlineFill** para énfasis suave.`}
+</Markdown>
+
+<!-- En SB 9: Canvas usa "of" para referenciar una story -->
+<Canvas withToolbar sourceState="hidden" of={ButtonStories.Playground} />
+
+## API
+<ArgsTable of={Button} />

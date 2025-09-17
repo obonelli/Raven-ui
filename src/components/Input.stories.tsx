@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import Input from './Input';
 
 const meta: Meta<typeof Input> = {
-    title: 'UI/Input',
+    title: 'Components/Input',
     component: Input,
     args: { label: 'Your name', placeholder: 'Write here…' },
 };

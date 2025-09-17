@@ -1,8 +1,8 @@
 // src/index.ts
 
 // Re-export all UI components here
-export * from './components/ui/Button';
-export * from './components/ui/Input';
+export * from './components/button/Button';
+export * from './components/Input';
 
 // (Más adelante)
 // export * from './components/ui/Card';
