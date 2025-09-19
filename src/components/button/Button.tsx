@@ -1,6 +1,6 @@
 import React from 'react';
 
-type ButtonVariant = 'primary' | 'outline' | 'link' | 'outlineFill';
+export type ButtonVariant = 'primary' | 'outline' | 'link' | 'outlineFill';
 
 export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
     /** Visual style of the button */
@@ -16,7 +16,8 @@ export default function Button({
     style,
     ...props
 }: ButtonProps) {
-    const base = 'h-11 px-6 rounded-md text-sm font-medium transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[#5aa7ff]';
+    const base =
+        'h-11 px-6 rounded-md text-sm font-medium transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[#5aa7ff]';
 
     const variants: Record<ButtonVariant, string> = {
         primary: `text-white bg-[#002d4c] hover:bg-[#00243c] ${base}`,

@@ -1,10 +1,9 @@
 // src/index.ts
+// Re-export nombrado para consumir desde el front:
+// import { Button, Input } from '@obonelli/raven-ui';
 
-// Re-export all UI components here
-export * from './components/button/Button';
-export * from './components/Input';
+export { default as Button } from './components/button/Button';
+export type { ButtonProps, ButtonVariant } from './components/button/Button';
 
-// (Más adelante)
-// export * from './components/ui/Card';
-// export * from './components/ui/Modal';
-// export * from './components/ui/Badge';
+export { default as Input } from './components/input/Input';
+export type { InputProps } from './components/input/Input';

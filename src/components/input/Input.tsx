@@ -1,3 +1,4 @@
+'use client';
 import React, { useEffect, useId, useState } from 'react';
 
 export interface InputProps
