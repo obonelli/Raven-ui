@@ -1,55 +1,68 @@
-/* src/styles.css */
 @import "tailwindcss";
 
-/* Dile a Tailwind dónde buscar clases (v4) */
+/* Rutas de exploración Tailwind v4 */
 @source "./**/*.{ts,tsx,js,jsx,html,mdx}";
 @source "../.storybook/**/*.{ts,tsx,js,jsx,html,mdx}";
-@source "../stories/**/*.{ts,tsx,js,jsx,html,mdx}";
+@source "./components/**/*.{ts,tsx,js,jsx}";
 
-/* Tus tokens / theme pueden vivir aquí también */
-:root {
-    --background: #ffffff;
-    --foreground: #171717;
-}
-
+/* ===== Tokens base (brand + intents) ===== */
 @theme {
-    --color-background: var(--background);
-    --color-foreground: var(--foreground);
+    /* Brand (Raven) */
+    --color-primary: #00a8ff;
+    --color-primary-600: #0095e6;
+    /* ~12% darker */
+    --color-primary-700: #007acc;
+    /* ~20% darker */
 
-    --color-brand-50: #f4f7ff;
-    --color-brand-100: #e9effe;
-    --color-brand-200: #cdd9fd;
-    --color-brand-300: #a8bbfb;
-    --color-brand-400: #7a93f7;
-    --color-brand-500: #566ff2;
-    --color-brand-600: #4156cc;
-    --color-brand-700: #3443a3;
-    --color-brand-800: #2b3783;
-    --color-brand-900: #242e6b;
+    /* Secondary (slate-ish) */
+    --color-secondary: #475569;
+    --color-secondary-600: #3a4556;
+    --color-secondary-700: #2f3947;
 
-    --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
-    --font-mono: var(--font-geist-mono), ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+    /* Success (emerald) */
+    --color-success: #22c55e;
+    --color-success-600: #16a34a;
+    --color-success-700: #15803d;
 
-    --radius-xl: 0.9rem;
-    --shadow-card: 0 8px 24px rgba(0, 0, 0, 0.12);
+    /* Warning (amber) */
+    --color-warning: #f59e0b;
+    --color-warning-600: #d97706;
+    --color-warning-700: #b45309;
+
+    /* Danger (red) */
+    --color-danger: #ef4444;
+    --color-danger-600: #dc2626;
+    --color-danger-700: #b91c1c;
 }
 
-@media (prefers-color-scheme: dark) {
-    :root {
-        --background: #0b0f17;
-        --foreground: #e5e7eb;
-    }
+/* ===== Paleta por esquema ===== */
+:root {
+    color-scheme: light;
+    --color-bg: #ffffff;
+    --color-card: #ffffff;
+    --color-ink: #111827;
+    /* texto base */
+    --color-muted: #6b7280;
+    /* texto secundario */
+    --color-border: #e5e7eb;
+    /* borde claro */
 }
 
-html,
+/* Dark opcional */
+:root.dark,
+.dark :root {
+    color-scheme: dark;
+    --color-bg: #0a0b10;
+    --color-card: #101320;
+    --color-ink: #e6e6f0;
+    --color-muted: #9aa0b4;
+    --color-border: #1c2030;
+}
+
+/* Deja que Storybook controle el fondo */
 body,
-#__next,
+.sbdocs,
 #storybook-root {
-    height: 100%;
-}
-
-body {
-    background: var(--background);
-    color: var(--foreground);
-    font-family: var(--font-sans);
+    background: transparent;
+    color: var(--color-ink);
 }

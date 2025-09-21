@@ -1,4 +1,3 @@
-// .storybook/preview.ts
 import type { Preview } from '@storybook/react';
 import '../src/styles.css';
 
@@ -8,7 +7,7 @@ const preview: Preview = {
     controls: { expanded: true },
     actions: { argTypesRegex: '^on[A-Z].*' },
     backgrounds: {
-      default: 'canvas-dark',
+      default: 'light', // blanco por defecto
       values: [
         { name: 'canvas-dark', value: '#0b1220' },
         { name: 'light', value: '#ffffff' },
@@ -17,7 +16,6 @@ const preview: Preview = {
     },
     docs: {
       title: 'Raven UI',
-      // Muestra el toggle “Show code” y oculta el código por defecto
       source: { state: 'hidden' },
     },
     viewport: {

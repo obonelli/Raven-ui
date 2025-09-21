@@ -14,10 +14,25 @@ import Button from './Button';
 <Subtitle>Calls to action in forms and flows.</Subtitle>
 
 <Markdown>
-  {`Primary para acciones principales, **outline** para secundarias, **link** para inline y **outlineFill** para énfasis suave.`}
+{`**Design tokens (Raven UI)**
+
+**Colors**
+- \`primary\`: var(--color-primary)
+- \`secondary\`: var(--color-secondary)
+- \`success\`: var(--color-success)
+- \`warning\`: var(--color-warning)
+- \`danger\`:  var(--color-danger)
+
+**Appearances**
+- \`solid\`: relleno con texto blanco, hover/active más oscuros.
+- \`outline\`: borde sutil; en hover toma el color seleccionado.
+- \`ghost\`: borde y texto del color; hover con fill suave.
+- \`link\`: estilo de enlace subrayado.
+
+> **Compatibilidad:** la prop legada \`variant\` (\`primary\`, \`outline\`, \`link\`, \`outlineFill\`) sigue funcionando internamente, pero se recomienda usar **appearance + color**.
+`}
 </Markdown>
 
-<!-- En SB 9: Canvas usa "of" para referenciar una story -->
 <Canvas withToolbar sourceState="hidden" of={ButtonStories.Playground} />
 
 ## API
