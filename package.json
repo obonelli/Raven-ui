@@ -39,7 +39,8 @@
     "storybook": "storybook dev -p 6006 --config-dir .storybook",
     "build-storybook": "storybook build --config-dir .storybook",
     "prepublishOnly": "npm run build",
-    "lint": "eslint ."
+    "lint": "eslint .",
+    "vercel-build": "npm run build-storybook"
   },
   "peerDependencies": {
     "react": "^18 || ^19",
