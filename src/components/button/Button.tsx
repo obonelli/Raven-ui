@@ -1,10 +1,10 @@
 import React from "react";
 
 /** Visual “shape” del botón */
-type Appearance = "solid" | "outline" | "ghost" | "link";
+export type Appearance = "solid" | "outline" | "ghost" | "link";
 
 /** Paleta alineada a tokens de styles.css */
-type Color = "primary" | "secondary" | "success" | "warning" | "danger";
+export type Color = "primary" | "secondary" | "success" | "warning" | "danger";
 
 /** Back-compat con tu API vieja */
 export type LegacyVariant = "primary" | "outline" | "link" | "outlineFill";
@@ -35,31 +35,11 @@ function mapLegacy(variant?: LegacyVariant): { appearance: Appearance; color: Co
 
 /** Helper para strings tokenizados */
 const TOK = {
-    primary: {
-        base: "var(--color-primary)",
-        h: "var(--color-primary-600)",
-        a: "var(--color-primary-700)",
-    },
-    secondary: {
-        base: "var(--color-secondary)",
-        h: "var(--color-secondary-600)",
-        a: "var(--color-secondary-700)",
-    },
-    success: {
-        base: "var(--color-success)",
-        h: "var(--color-success-600)",
-        a: "var(--color-success-700)",
-    },
-    warning: {
-        base: "var(--color-warning)",
-        h: "var(--color-warning-600)",
-        a: "var(--color-warning-700)",
-    },
-    danger: {
-        base: "var(--color-danger)",
-        h: "var(--color-danger-600)",
-        a: "var(--color-danger-700)",
-    },
+    primary: { base: "var(--color-primary)", h: "var(--color-primary-600)", a: "var(--color-primary-700)" },
+    secondary: { base: "var(--color-secondary)", h: "var(--color-secondary-600)", a: "var(--color-secondary-700)" },
+    success: { base: "var(--color-success)", h: "var(--color-success-600)", a: "var(--color-success-700)" },
+    warning: { base: "var(--color-warning)", h: "var(--color-warning-600)", a: "var(--color-warning-700)" },
+    danger: { base: "var(--color-danger)", h: "var(--color-danger-600)", a: "var(--color-danger-700)" },
 } satisfies Record<Color, { base: string; h: string; a: string }>;
 
 /** Reusable button – sin clases dinámicas de Tailwind */
